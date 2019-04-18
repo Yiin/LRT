@@ -1,20 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Fab from '@material-ui/core/Fab';
+import ReloadIcon from '@material-ui/icons/Autorenew';
 import withStyles from '@material-ui/core/styles/withStyles';
 import ProgramItem from '../../components/ProgramItem';
 
 const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 4,
+        marginBottom: theme.spacing.unit * 4,
+    },
+    reloadButton: {
+        marginTop: theme.spacing.unit * 4,
     },
 });
 
 const LivePrograms = ({ classes }) => {
     const [currentShows, setCurrentShows] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const getCurrentRadioShow = async () => {
+    const getCurrentRadioShow = useMemo(() => async () => {
+        setLoading(true);
+
+        try {
             const response = await Axios.get(
                 `${process.env.REACT_APP_API_URL}/live`
             );
@@ -27,7 +36,12 @@ const LivePrograms = ({ classes }) => {
                 }));
                 setCurrentShows(transformedData);
             }
-        };
+        } finally {
+            setLoading(false);
+        }
+    });
+
+    useEffect(() => {
         getCurrentRadioShow();
     }, []);
 
@@ -42,6 +56,15 @@ const LivePrograms = ({ classes }) => {
             { currentShows.map(show => (
                 <ProgramItem {...show} />
             )) }
+
+            <Fab
+                onClick={ getCurrentRadioShow }
+                color="primary"
+                className={ classes.reloadButton }
+                disabled={ loading }
+            >
+                <ReloadIcon className={classes.extendedIcon} />
+            </Fab>
         </div>
     );
 };
