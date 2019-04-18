@@ -9,6 +9,10 @@ const styles = theme => ({
     card: {
       display: 'flex',
       marginTop: theme.spacing.unit * 2,
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
     },
     details: {
         width: '100%',
@@ -23,6 +27,10 @@ const styles = theme => ({
             width: '80px',
             height: 'auto',
             marginLeft: theme.spacing.unit * 2,
+            [theme.breakpoints.down('xs')]: {
+                width: '160px',
+                marginTop: '16px',
+            },
         },
     },
 });
