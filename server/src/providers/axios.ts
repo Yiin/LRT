@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const AxiosProvider = {
-    provide: 'axios',
-    useFactory() {
-        return axios;
-    },
+  provide: 'axios',
+  useFactory() {
+    return axios;
+  },
 };
