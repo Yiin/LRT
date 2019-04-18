@@ -1,5 +1,6 @@
 import React from 'react';
+import IndexScene from './scenes/Index';
 
-const App = () => null;
+const App = () => <IndexScene />;
 
 export default App;
